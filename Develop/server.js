@@ -21,7 +21,7 @@ app.get('/', (req, res) =>{
 // })
 
 app.get('/notes', (req, res) => {
-    return res.sendFile(path.join(__dirname, './public/notes.html'));
+    res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
 app.get('/api/notes', (req, res) => {
@@ -33,7 +33,7 @@ app.post('/api/notes', (req, res) => {
     note.id = uniqid();
     noteArray.push(note);
     fs.writeFileSync(path.join(__dirname, './db/db.json'), JSON.stringify(noteArray), null, 2);
-    return res.sendFile(path.join(__dirname, './public/notes.html'));
+    res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
 app.delete('/api/notes/:id', (req, res) => {
@@ -43,7 +43,8 @@ app.delete('/api/notes/:id', (req, res) => {
             noteArray.splice(index,1);
         }
     });
-    return res.sendFile(path.join(__dirname, './public/notes.html'));
+    fs.writeFileSync(path.join(__dirname, './db/db.json'), JSON.stringify(noteArray), null, 2);
+    res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
 app.listen(PORT, () => {
