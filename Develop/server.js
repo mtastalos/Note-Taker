@@ -23,8 +23,8 @@ app.get('/notes', (req, res) => {
     res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
-app.get('/notes', (req, res) => {
-    console.log(noteArray)
+app.get('/api/notes', (req, res) => {
+    console.log('loaded')
     res.json(noteArray);
 })
 
@@ -32,7 +32,7 @@ app.post('/api/notes', (req, res) => {
     let note = req.body;
     noteArray.push(note);
     fs.writeFileSync(path.join(__dirname, './db/db.json'), JSON.stringify(noteArray), null, 2);
-    return noteArray;
+    return false;
 })
 
 app.listen(PORT, () => {
