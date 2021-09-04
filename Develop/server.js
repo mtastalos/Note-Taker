@@ -30,9 +30,19 @@ app.get('/api/notes', (req, res) => {
 
 app.post('/api/notes', (req, res) => {
     let note = req.body;
-    note.id = uniqid()
+    note.id = uniqid();
     noteArray.push(note);
     fs.writeFileSync(path.join(__dirname, './db/db.json'), JSON.stringify(noteArray), null, 2);
+    return res.sendFile(path.join(__dirname, './public/notes.html'));
+})
+
+app.delete('/api/notes/:id', (req, res) => {
+    const deleteNote = req.params.id;
+    noteArray.forEach((element, index) => {
+        if(element.id === deleteNote){
+            noteArray.splice(index,1);
+        }
+    });
     return res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
