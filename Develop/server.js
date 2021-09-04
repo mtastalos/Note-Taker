@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path')
 const fs = require('fs');
 const noteArray = require('./db/db')
+const uniqid = require('uniqid')
 
 const PORT = process.env.PORT || 3001;
 const app = express();
@@ -20,19 +21,19 @@ app.get('/', (req, res) =>{
 // })
 
 app.get('/notes', (req, res) => {
-    res.sendFile(path.join(__dirname, './public/notes.html'));
+    return res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
 app.get('/api/notes', (req, res) => {
-    console.log('loaded')
-    res.json(noteArray);
+    return res.json(noteArray);
 })
 
 app.post('/api/notes', (req, res) => {
     let note = req.body;
+    note.id = uniqid()
     noteArray.push(note);
     fs.writeFileSync(path.join(__dirname, './db/db.json'), JSON.stringify(noteArray), null, 2);
-    return false;
+    return res.sendFile(path.join(__dirname, './public/notes.html'));
 })
 
 app.listen(PORT, () => {
