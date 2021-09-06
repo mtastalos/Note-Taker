@@ -9,6 +9,7 @@
 * CSS
 * JavaScript
 * Node
+* Express
 * Heroku
 * uniqid
 
